@@ -11,9 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+
 using BusinessLayer;
 using DataLayer;
 using System.Timers;
+
 namespace Top2000
 {
     /// <summary>

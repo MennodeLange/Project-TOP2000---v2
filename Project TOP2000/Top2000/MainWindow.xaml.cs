@@ -29,7 +29,7 @@ namespace Top2000
     /// </summary>
     public partial class MainWindow : Window 
     {
-     
+        public string openclosed = "Closed";
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +38,16 @@ namespace Top2000
         
         public void MenuH_Click(object sender, RoutedEventArgs e)
         {
+            if (openclosed == "Closed")
+            {
+                MenuCon.Height = 190;
+                openclosed = "Open";
+            }
+            else
+            {
+                MenuCon.Height = 30;
+                openclosed = "Closed";
+            }
         }
 
    
