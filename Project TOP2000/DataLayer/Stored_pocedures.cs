@@ -47,7 +47,3 @@ namespace DataLayer
         }
     }
 }
-
-
-
-//Top10.DataContext = ds.Tables[0].DefaultView;

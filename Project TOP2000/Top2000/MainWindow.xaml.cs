@@ -134,18 +134,20 @@ namespace Top2000
         
         public void GetTop10Search()
         {
+            // Variabelen
             int SearchLength = TBSearch.Text.Length;
             string SearchInput = TBSearch.Text;
             int above = 0;
             string SelectedJaartal = CBJaar.SelectedValue.ToString();
-            //Top10.DataContext = objDataSet;
-            //Top10.DataContext = ds.Tables[0].DefaultView;
 
+            // Variabelen op sturen naaar de businesslayer
             Lijst objBusinessLayer = new Lijst();
             objBusinessLayer.LijstLengte = SearchLength;
             objBusinessLayer.SearchInput = SearchInput;
             objBusinessLayer.Above = above;
             objBusinessLayer.SelectedJaartal = SelectedJaartal;
+
+            // Top10 vullen
             Top10.DataContext = objBusinessLayer.DataSetTop10;
         }
 
