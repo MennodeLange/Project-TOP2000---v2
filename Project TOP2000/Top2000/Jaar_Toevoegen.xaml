@@ -1,0 +1,18 @@
+﻿<Window x:Class="Top2000.Jaar_Toevoegen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Top2000"
+        mc:Ignorable="d"
+        Title="Jaar Toevoegen" Height="400" Width="450" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="Jaar Uploaden" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="442" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="20"/>
+
+        <Button x:Name="BTNTerug" Content="Terug" HorizontalAlignment="Left" Margin="75,300,0,0" VerticalAlignment="Top" Width="75" Height="50" FontWeight="Bold" Click="BTNTerug_Click"/>
+        <Button x:Name="BTNUploaden" Content="Uploaden" HorizontalAlignment="Left" Margin="300,300,0,0" VerticalAlignment="Top" Width="75" Height="50" FontWeight="Bold" Click="BTNUploaden_Click"/>
+        <Button x:Name="BTNHelp" Content="Help!" HorizontalAlignment="Left" Margin="325,80,0,0" VerticalAlignment="Top" Width="75" Height="50" Click="BTNHelp_Click"/>
+        <Button x:Name="BtnFileUploaden" Content="Button" HorizontalAlignment="Left" Margin="170,152,0,0" VerticalAlignment="Top" Width="110" Height="60" Click="BtnFileUploaden_Click"/>
+        <Label x:Name="LBLGeuploadeBestand" Content="" HorizontalAlignment="Left" Margin="150,225,0,0" VerticalAlignment="Top" Width="145"/>
+    </Grid>
+</Window>

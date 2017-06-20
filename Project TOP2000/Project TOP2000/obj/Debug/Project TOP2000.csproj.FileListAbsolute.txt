@@ -1,2 +1,0 @@
-D:\School\Programmeren\Opdrachten in de les\Project TOP2000\Project TOP2000\bin\Debug\Project TOP2000.exe.config
-D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\Project TOP2000\bin\Debug\Project TOP2000.exe.config
