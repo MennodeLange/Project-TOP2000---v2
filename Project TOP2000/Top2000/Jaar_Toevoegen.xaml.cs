@@ -29,7 +29,8 @@ namespace Top2000
         }
 
         private void BTNUploaden_Click(object sender, RoutedEventArgs e)
-        {  
+        { 
+             
         }
 
         private void BTNTerug_Click(object sender, RoutedEventArgs e)

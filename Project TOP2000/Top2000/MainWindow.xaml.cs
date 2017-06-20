@@ -14,13 +14,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
+// Import using
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data.Sql;
 using System.Data;
 
+// Own using
 using BusinessLayer;
 using DataLayer;
+
 namespace Top2000
 {
 
@@ -30,11 +33,11 @@ namespace Top2000
     public partial class MainWindow : Window 
     {
         public string openclosed = "Closed";
+
         public MainWindow()
         {
             InitializeComponent();
         }
-
         
         public void MenuH_Click(object sender, RoutedEventArgs e)
         {
@@ -49,13 +52,11 @@ namespace Top2000
                 openclosed = "Closed";
             }
         }
-
    
 
         private void CBJaar_changed(object sender, System.EventArgs e)
         {
           
-
         }
 
         private void Artiest_Toevoegen_Click(object sender, RoutedEventArgs e)
@@ -119,7 +120,7 @@ namespace Top2000
         /// <param name="e"></param>
         public void GotFocusE(object sender, RoutedEventArgs e)
         {
-           
+            TBSearch.Text = "";
         }
         /// <summary>
         /// Functie die word aangeroepen waneer de search textbox niet langer gefocussed is
@@ -128,23 +129,29 @@ namespace Top2000
         /// <param name="e"></param>
         public void LostFocusE(object sender, RoutedEventArgs e)
         {
-            
-        
+            TBSearch.Text = "Search...";
         }
-
-
-
+        
         public void GetTop10Search()
         {
-           
+            int SearchLength = TBSearch.Text.Length;
+            string SearchInput = TBSearch.Text;
+            int above = 0;
+            string SelectedJaartal = CBJaar.SelectedValue.ToString();
+            //Top10.DataContext = objDataSet;
+            //Top10.DataContext = ds.Tables[0].DefaultView;
+
+            Lijst objBusinessLayer = new Lijst();
+            objBusinessLayer.LijstLengte = SearchLength;
+            objBusinessLayer.SearchInput = SearchInput;
+            objBusinessLayer.Above = above;
+            objBusinessLayer.SelectedJaartal = SelectedJaartal;
+            Top10.DataContext = objBusinessLayer.DataSetTop10;
         }
 
         public void GetTop10()
         {
            
-         
         }
-
-      
     }  
 }
