@@ -22,7 +22,6 @@ using System.Data;
 
 // Own using
 using BusinessLayer;
-using DataLayer;
 
 namespace Top2000
 {
@@ -34,11 +33,15 @@ namespace Top2000
     {
         public string openclosed = "Closed";
 
+        public int val = 0;
+
+
         public MainWindow()
         {
             InitializeComponent();
-            GetTop10();
             Loaded();
+            TBSearch.TextChanged += new TextChangedEventHandler(TextChanged);
+            val = TBSearch.Text.Length;
         }
         
         public void MenuH_Click(object sender, RoutedEventArgs e)
@@ -55,21 +58,20 @@ namespace Top2000
             }
         }
 
-        private void CBJaar_changed(object sender, System.EventArgs e)
-        {
-          
-        }
+        
         public void Loaded()
         {
-            try
-            {
-                GetTop10();
-            }  
-            catch
-            {
-                MessageBox.Show("kan de gegevens niet ophalen");
-            }
-}
+            VulComboBox();
+            CBJaar.SelectedIndex = 0;
+            Top10.Background = Brushes.White;
+        }
+        private void CBJaar_changed(object sender, System.EventArgs e)
+        {
+            Lijst objlijst = new Lijst();
+            objlijst.Above = 0;
+            GetTop10();
+        }
+
         private void Artiest_Toevoegen_Click(object sender, RoutedEventArgs e)
         {
             Artiest_Toevoegen Toevoegen = new Artiest_Toevoegen();
@@ -121,7 +123,23 @@ namespace Top2000
 
         private void TextChanged(object Sender, TextChangedEventArgs e)
         {
-          
+             Lijst objLijst = new Lijst();
+
+            objLijst.Above  = 0;
+            if (TBSearch.Text.Length >= 3 && !(TBSearch.Text == "Search"))
+            {
+                GetTop10Search();
+            }
+
+            if (val != 0 && TBSearch.Text.Length < val)
+            {
+                GetTop10Search();
+            }
+
+            if (TBSearch.Text.Length == 0 && !(TBSearch.Text == "Search") || TBSearch.Text == "Search...")
+            {
+                GetTop10();
+            }
         }
 
         /// <summary>
@@ -153,6 +171,7 @@ namespace Top2000
             string SearchInput = TBSearch.Text;
             int above = 0;
             string SelectedJaartal = CBJaar.SelectedValue.ToString();
+            
 
             // Variabelen op sturen naaar de businesslayer
             Lijst objBusinessLayer = new Lijst();
@@ -162,7 +181,13 @@ namespace Top2000
             objBusinessLayer.SelectedJaartal = SelectedJaartal;
 
             // Top10 vullen
-            Top10.DataContext = objBusinessLayer.DataSetTop10;
+            //objBusinessLayer.DataViewTop10 = Top10.DataContext;
+            Top10.DataContext = objBusinessLayer.DataViewTop10;
+
+            StoredProcedures ProcedureGetTop10Search = new StoredProcedures();
+            ProcedureGetTop10Search.GetTop10Search(objBusinessLayer);
+
+            Top10.DataContext = ProcedureGetTop10Search.GetTop10Search(objBusinessLayer);
         }
 
         /// <summary>
@@ -170,21 +195,44 @@ namespace Top2000
         /// </summary>
         public void GetTop10()
         {
-            // Variabelen
-            int SearchLength = TBSearch.Text.Length;
-            string SearchInput = TBSearch.Text;
-            int above = 0;
-            string SelectedJaartal = CBJaar.SelectedValue.ToString();
 
-            // Variabelen op sturen naaar de businesslayer
             Lijst objBusinessLayer = new Lijst();
-            objBusinessLayer.LijstLengte = SearchLength;
-            objBusinessLayer.SearchInput = SearchInput;
+            // Variabelen
+            //int SearchLength = TBSearch.Text.Length;
+            //string SearchInput = TBSearch.Text;
+            int above = 0;
+
+
+            string Jaartal = CBJaar.SelectedValue.ToString();
+            objBusinessLayer.SelectedJaartal = Jaartal;
+
+            // Variabelen op sturen naar de businesslayer
             objBusinessLayer.Above = above;
-            objBusinessLayer.SelectedJaartal = SelectedJaartal;
 
             // Top10 vullen
-            Top10.DataContext = objBusinessLayer.DataSetTop10;
+            //objBusinessLayer.DataViewTop10 = Top10.DataContext;
+            
+            //^ dit moet geen null zijn als je er doorheen bent gelopen.
+
+            StoredProcedures ProcedureGetTop10 = new StoredProcedures();
+            ProcedureGetTop10.GetTop10(objBusinessLayer);
+
+            Top10.DataContext = ProcedureGetTop10.GetTop10(objBusinessLayer);
+        }
+
+        /// <summary>
+        /// Before MyFunction() changed to VulComboBox()
+        /// </summary>
+        public void VulComboBox()
+        {
+            StoredProcedures ProcedureVulBox = new StoredProcedures();
+            ProcedureVulBox.FillComboboxWithYears();
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            for (int i = 0; i < ProcedureVulBox.FillComboboxWithYears().Rows.Count; i++)
+            {
+                CBJaar.Items.Add(ProcedureVulBox.FillComboboxWithYears().Rows[i][0].ToString());
+                //CBJaar.Items.Add(dt.Rows[i][0].ToString())
+            }
         }
     }  
 }

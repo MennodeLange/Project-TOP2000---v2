@@ -12,7 +12,7 @@
         <ComboBox x:Name="CBJaar" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxDropDownHeight="150" HorizontalAlignment="Left" Margin="296,0,0,0" SelectionChanged="CBJaar_changed" VerticalAlignment="Top" Width="95" BorderBrush="Black" Height="28" Background="White" BorderThickness="2,2,1,2" FontWeight="Bold" VerticalContentAlignment="Center" Padding="15,3,5,3"/>
         <TextBox x:Name="TBSearch" HorizontalAlignment="Left" Height="28" LostFocus="LostFocusE" GotFocus="GotFocusE" Margin="391,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291" BorderBrush="#FF171D3C" Text="Search" VerticalContentAlignment="Center" Padding="5,0,0,0" Foreground="#FF171D3C" FontWeight="Bold"/>
 
-        <DockPanel HorizontalAlignment="Left" Height="34" LastChildFill="False" Margin="0,279,0,0" VerticalAlignment="Top" Width="682" Background="Black">
+        <DockPanel HorizontalAlignment="Left" Height="34" LastChildFill="False" Margin="0,279,0,0" VerticalAlignment="Top" Width="682" Background="White">
             <Button x:Name="BtnEerste" Content="Eerste Pagina" Height="32" VerticalAlignment="Top" Width="171" Click="BtnEerste_Click" Foreground="#FF002972" BorderBrush="#FF002972"  Cursor="Hand" BorderThickness="1,2,1,1"/>
             <Button x:Name="BtnVorige" Content="Vorige Pagina" Height="32" VerticalAlignment="Top" Width="170" Click="BtnVorige_Click" Foreground="#FF002972" BorderBrush="#FF002972"  Cursor="Hand" BorderThickness="1,2,1,1"/>
             <Button x:Name="BtnVolgende" Content="Volgende Pagina" Height="32" VerticalAlignment="Top" Width="170" Click="BtnVolgende_Click" Foreground="#FF002972" BorderBrush="#FF002972"  Cursor="Hand" BorderThickness="1,2,1,1"/>
