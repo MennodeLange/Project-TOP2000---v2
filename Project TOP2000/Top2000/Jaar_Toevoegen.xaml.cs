@@ -34,14 +34,14 @@ namespace Top2000
         {
 
             //System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-
+            
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Wilt u dit jaar toevoegen?", "Zeker weten?", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
 
                 try
                 {
-
+                    
                 }
                 catch
                 {
@@ -68,7 +68,7 @@ namespace Top2000
             Help newhelp = new Help();
             newhelp.Show();
         }
-
+        
         /// <summary>
         /// word = string geseperate bij komma
         /// line = hele regel 

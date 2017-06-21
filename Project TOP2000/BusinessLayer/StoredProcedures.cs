@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data.Sql;
 using System.Data;
 
-using BusinessLayer;
 
-namespace DataLayer
+namespace BusinessLayer
 {
-     public class Stored_pocedures 
+   public class StoredProcedures
     {
         private int val;
 
@@ -23,7 +21,11 @@ namespace DataLayer
             set { val = value; }
         }
 
-        public Stored_pocedures(int _val)
+        public StoredProcedures()
+        {
+
+        }
+        public StoredProcedures(int _val)
         {
             this.val = _val;
         }
@@ -90,6 +92,37 @@ namespace DataLayer
                     }
                 }
             }
+        }
+
+
+        public void ArtiestToevoegen()
+        {
+            Artiest artiest = new Artiest();
+            SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["Top2000ConnectionString"].ConnectionString);
+
+            Connectie.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "AddArtiest";
+            cmd.Parameters.AddWithValue("@naam", artiest.Naam);
+            cmd.Parameters.AddWithValue("@url", artiest.Url);
+            cmd.Parameters.AddWithValue("@biografie", artiest.Bio);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = Connectie;
+            cmd.ExecuteNonQuery();
+            Connectie.Close();
+        }
+
+        public void ArtiestVerwijderen()
+        {
+            SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["Top2000ConnectionString"].ConnectionString);
+
+            Connectie.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "RemoveArtiestZonderLied";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = Connectie;
+            cmd.ExecuteNonQuery();
+            Connectie.Close();
         }
     }
 }

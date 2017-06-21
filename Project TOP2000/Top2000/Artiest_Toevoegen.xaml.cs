@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BusinessLayer;
-using DataLayer;
+
 
 using System.IO;
 using System.Data.SqlClient;
@@ -40,6 +40,31 @@ namespace Top2000
         private void BTNAanpassen_Click(object sender, RoutedEventArgs e)
         {
           
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Wilt u deze artiest toevoegen?", "Zeker weten?", System.Windows.MessageBoxButton.YesNo);
+
+            if (TBArtiestNaam.Text.Length == 0 || TBArtiestUrl.Text.Length == 0 || TBArtiestBiografie.Text.Length == 0)
+            {
+                MessageBox.Show("Vul eerst alle velden in");
+            }
+            else
+            {
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    //hier moet de stored procedure methode uitgevoerd worden
+                    StoredProcedures Procedures = new StoredProcedures();
+                    Procedures.ArtiestToevoegen();
+
+                    MessageBox.Show("Artiest Toegevoegd!");
+                    TBArtiestNaam.Text = "";
+                    TBArtiestUrl.Text = "";
+                    TBArtiestBiografie.Text = "";
+                }
+                if (messageBoxResult == MessageBoxResult.No)
+                {
+                    MessageBox.Show("Artiest niet Toegevoegd!");
+
+                }
+            }
         }
     }
 }

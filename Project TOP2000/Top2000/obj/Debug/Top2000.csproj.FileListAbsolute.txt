@@ -28,3 +28,6 @@ D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\Top2000\ob
 D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\Top2000\obj\Debug\Top2000.csproj.GenerateResource.Cache
 D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\Top2000\obj\Debug\Top2000.exe
 D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\Top2000\obj\Debug\Top2000.pdb
+C:\Users\Ruben\Desktop\Project TOP2000\Project-TOP2000---v2\Project TOP2000\Top2000\bin\Debug\Top2000.exe.config
+C:\Users\Ruben\Desktop\Project TOP2000\Project-TOP2000---v2\Project TOP2000\Top2000\obj\Debug\Top2000.exe
+C:\Users\Ruben\Desktop\Project TOP2000\Project-TOP2000---v2\Project TOP2000\Top2000\obj\Debug\Top2000.pdb
