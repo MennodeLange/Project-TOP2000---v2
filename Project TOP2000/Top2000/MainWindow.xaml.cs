@@ -38,6 +38,7 @@ namespace Top2000
         {
             InitializeComponent();
             GetTop10();
+            Loaded();
         }
         
         public void MenuH_Click(object sender, RoutedEventArgs e)
@@ -53,13 +54,22 @@ namespace Top2000
                 openclosed = "Closed";
             }
         }
-   
 
         private void CBJaar_changed(object sender, System.EventArgs e)
         {
           
         }
-
+        public void Loaded()
+        {
+            try
+            {
+                GetTop10();
+            }  
+            catch
+            {
+                MessageBox.Show("kan de gegevens niet ophalen");
+            }
+}
         private void Artiest_Toevoegen_Click(object sender, RoutedEventArgs e)
         {
             Artiest_Toevoegen Toevoegen = new Artiest_Toevoegen();

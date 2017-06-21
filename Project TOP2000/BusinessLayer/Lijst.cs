@@ -50,9 +50,23 @@ namespace BusinessLayer
             set { dataSetTop10 = value; }
         }
 
+        private DataTable dataTable;
+
+        public DataTable DataTable
+        {
+            get { return dataTable; }
+            set { dataTable = value; }
+        }
+
+       
+
+
+
+
         public Lijst()
         {
             
         }
+        
     }
 }
