@@ -37,6 +37,7 @@ namespace Top2000
         public MainWindow()
         {
             InitializeComponent();
+            GetTop10();
         }
         
         public void MenuH_Click(object sender, RoutedEventArgs e)
@@ -132,6 +133,9 @@ namespace Top2000
             TBSearch.Text = "Search...";
         }
         
+        /// <summary>
+        /// Get top 10 Search
+        /// </summary>
         public void GetTop10Search()
         {
             // Variabelen
@@ -151,9 +155,26 @@ namespace Top2000
             Top10.DataContext = objBusinessLayer.DataSetTop10;
         }
 
+        /// <summary>
+        /// Get top 10
+        /// </summary>
         public void GetTop10()
         {
-           
+            // Variabelen
+            int SearchLength = TBSearch.Text.Length;
+            string SearchInput = TBSearch.Text;
+            int above = 0;
+            string SelectedJaartal = CBJaar.SelectedValue.ToString();
+
+            // Variabelen op sturen naaar de businesslayer
+            Lijst objBusinessLayer = new Lijst();
+            objBusinessLayer.LijstLengte = SearchLength;
+            objBusinessLayer.SearchInput = SearchInput;
+            objBusinessLayer.Above = above;
+            objBusinessLayer.SelectedJaartal = SelectedJaartal;
+
+            // Top10 vullen
+            Top10.DataContext = objBusinessLayer.DataSetTop10;
         }
     }  
 }

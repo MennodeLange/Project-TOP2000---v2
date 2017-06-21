@@ -16,8 +16,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data.Sql;
 using System.Data;
+
 using BusinessLayer;
-using DataLayer;
 
 namespace Top2000
 {
@@ -40,8 +40,6 @@ namespace Top2000
             artiest.Bio = BioText;
             artiest.Naam = ArtiestNaam;
             artiest.Url = ArtiestUrl;
-
-
         }
 
         private void BTNTerug_Click(object sender, RoutedEventArgs e)

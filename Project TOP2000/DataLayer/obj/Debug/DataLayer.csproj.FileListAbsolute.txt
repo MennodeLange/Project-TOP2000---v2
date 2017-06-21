@@ -1,0 +1,7 @@
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\DataLayer\bin\Debug\DataLayer.dll
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\DataLayer\bin\Debug\DataLayer.pdb
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\DataLayer\bin\Debug\BusinessLayer.dll
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\DataLayer\bin\Debug\BusinessLayer.pdb
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\DataLayer\obj\Debug\DataLayer.csprojResolveAssemblyReference.cache
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\DataLayer\obj\Debug\DataLayer.dll
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\DataLayer\obj\Debug\DataLayer.pdb

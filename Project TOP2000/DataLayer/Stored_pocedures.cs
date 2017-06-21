@@ -28,7 +28,7 @@ namespace DataLayer
             this.val = _val;
         }
 
-        public void GetTop10Search(string _val)
+        public void GetTop10Search()
         {
             Lijst objLijst = new Lijst();
 
@@ -41,6 +41,23 @@ namespace DataLayer
             cmd.Parameters.Add("@jaartal", SqlDbType.Int, 50).Value = objLijst.SelectedJaartal;
             cmd.Parameters.Add("@above", SqlDbType.Int, 50).Value = objLijst.Above;
             cmd.Parameters.Add("@input", SqlDbType.VarChar, 100).Value = objLijst.SearchInput;
+            CONad.SelectCommand = cmd;
+            CONad.Fill(objLijst.DataSetTop10);
+            Connectie.Close();
+        }
+
+        public void GetTop10()
+        {
+            Lijst objLijst = new Lijst();
+
+            SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["Top2000ConnectionString"].ConnectionString);
+            SqlDataAdapter CONad = new SqlDataAdapter();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = Connectie;
+            cmd.CommandText = "GetTop10";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@jaartal", SqlDbType.Int, 50).Value = objLijst.SelectedJaartal;
+            cmd.Parameters.Add("@above", SqlDbType.Int, 50).Value = objLijst.Above;
             CONad.SelectCommand = cmd;
             CONad.Fill(objLijst.DataSetTop10);
             Connectie.Close();

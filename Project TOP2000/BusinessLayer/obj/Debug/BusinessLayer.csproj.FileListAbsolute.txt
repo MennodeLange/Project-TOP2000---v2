@@ -1,0 +1,5 @@
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\BusinessLayer\bin\Debug\BusinessLayer.dll
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\BusinessLayer\bin\Debug\BusinessLayer.pdb
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\BusinessLayer\obj\Debug\BusinessLayer.dll
+D:\School\Programmeren\Projecten\Project-TOP2000---v2\Project TOP2000\BusinessLayer\obj\Debug\BusinessLayer.pdb
