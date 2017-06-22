@@ -31,8 +31,8 @@ namespace Top2000
     /// </summary>
     public partial class MainWindow : Window 
     {
-        Lijst objAbove = new Lijst();
-
+        Lijst lijst = new Lijst();
+        Artiest objartiest = new Artiest();
         
 
         public string openclosed = "Closed";
@@ -46,7 +46,7 @@ namespace Top2000
             Loaded();
             TBSearch.TextChanged += new TextChangedEventHandler(TextChanged);
             val = TBSearch.Text.Length;
-            objAbove.Above = 0;
+            lijst.Above = 0;
         }
         
         public void MenuH_Click(object sender, RoutedEventArgs e)
@@ -72,7 +72,7 @@ namespace Top2000
         }
         private void CBJaar_changed(object sender, System.EventArgs e)
         {
-            objAbove.Above = 0;
+            lijst.Above = 0;
             GetTop10();
         }
 
@@ -92,8 +92,10 @@ namespace Top2000
 
         private void Artiest_Bewerken_Click(object sender, RoutedEventArgs e)
         {
-            Artiest_Bewerken Bewerken = new Artiest_Bewerken();
-            Bewerken.Show();
+            StoredProcedures ProcedureArtiestBewerken = new StoredProcedures();
+            ProcedureArtiestBewerken.ArtiestBewerken(objartiest);
+            Artiest_Bewerken objArtiestBewerken = new Artiest_Bewerken();
+            objArtiestBewerken.Show();
             this.Close();
         }  
 
@@ -106,34 +108,39 @@ namespace Top2000
 
         public void BtnEerste_Click(object sender, RoutedEventArgs e)
         {
-            objAbove.Above = 0;
+            lijst.Above = 0;
             GetTop10();
         }
 
         public void BtnVorige_Click(object sender, RoutedEventArgs e)
         {
-            objAbove.Above = objAbove.Above - 10;
+            if (lijst.Above > 0)
+            {
+                lijst.Above -= 10;
+            }
             GetTop10();
         }
 
         public void BtnVolgende_Click(object sender, RoutedEventArgs e)
         {
-            objAbove.Above = objAbove.Above + 10;
+
+            if (lijst.Above < 1990){
+                lijst.Above += 10;
+            }
             GetTop10();
         }
 
         public void BtnLaatste_Click(object sender, RoutedEventArgs e)
         {
-            objAbove.Above = 1990;
+            lijst.Above = 1990;
             GetTop10();
         }
-
 
         private void TextChanged(object Sender, TextChangedEventArgs e)
         {
              
 
-            objAbove.Above  = 0;
+            lijst.Above  = 0;
             if (TBSearch.Text.Length >= 3 && !(TBSearch.Text == "Search"))
             {
                 GetTop10Search();
@@ -177,7 +184,7 @@ namespace Top2000
             // Variabelen
             int SearchLength = TBSearch.Text.Length;
             string SearchInput = TBSearch.Text;
-            int above = 0;
+            //int above = 0;
             string SelectedJaartal = CBJaar.SelectedValue.ToString();
             
 
@@ -185,7 +192,7 @@ namespace Top2000
             Lijst objBusinessLayer = new Lijst();
             objBusinessLayer.LijstLengte = SearchLength;
             objBusinessLayer.SearchInput = SearchInput;
-            objBusinessLayer.Above = above;
+            objBusinessLayer.Above = lijst.Above;
             objBusinessLayer.SelectedJaartal = SelectedJaartal;
 
             // Top10 vullen
@@ -208,14 +215,14 @@ namespace Top2000
             // Variabelen
             //int SearchLength = TBSearch.Text.Length;
             //string SearchInput = TBSearch.Text;
-            int above = 0;
+           // int above = 0;
 
 
             string Jaartal = CBJaar.SelectedValue.ToString();
             objBusinessLayer.SelectedJaartal = Jaartal;
 
             // Variabelen op sturen naar de businesslayer
-            objBusinessLayer.Above = above;
+            objBusinessLayer.Above = lijst.Above;
 
             // Top10 vullen
             //objBusinessLayer.DataViewTop10 = Top10.DataContext;

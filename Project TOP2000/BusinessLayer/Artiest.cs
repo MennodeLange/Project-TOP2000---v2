@@ -45,6 +45,39 @@ namespace BusinessLayer
             set { url = value; }
         }
 
+        private string selectedArtiest;
+
+        public string SelectedArtiest
+        {
+            get { return selectedArtiest; }
+            set { selectedArtiest = value; }
+        }
+
+        private int artiestLenght;
+
+        public int ArtiestLenght
+        {
+            get { return artiestLenght; }
+            set { artiestLenght = value; }
+        }
+
+        private int urlLenght;
+
+        public int UrlLenght
+        {
+            get { return urlLenght; }
+            set { urlLenght = value; }
+        }
+
+        private int bioLenght;
+
+        public int BioLenght
+        {
+            get { return bioLenght; }
+            set { bioLenght = value; }
+        }
+
+
         public Artiest()
         {
 

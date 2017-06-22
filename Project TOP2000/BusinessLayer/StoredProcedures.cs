@@ -11,7 +11,7 @@ using System.Data;
 
 namespace BusinessLayer
 {
-   public class StoredProcedures
+    public class StoredProcedures
     {
         public SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["Top2000ConnectionString"].ConnectionString);
 
@@ -38,17 +38,17 @@ namespace BusinessLayer
             DataSet DatasetFilled = new DataSet();
             Lijst objLijst = new Lijst(DatasetFilled);
 
-            
+
             objLijst.Val = objLijst.LijstLengte;
             SqlDataAdapter CONad = new SqlDataAdapter();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = Connectie;
-            cmd.CommandText = "GetTop10Search";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@jaartal", SqlDbType.Int, 50).Value = lijst.SelectedJaartal;
-            cmd.Parameters.Add("@above", SqlDbType.Int, 50).Value = lijst.Above;
-            cmd.Parameters.Add("@input", SqlDbType.VarChar, 100).Value = lijst.SearchInput;
-            CONad.SelectCommand = cmd;
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.Connection = Connectie;
+            objSqlCommand.CommandText = "GetTop10Search";
+            objSqlCommand.CommandType = CommandType.StoredProcedure;
+            objSqlCommand.Parameters.Add("@jaartal", SqlDbType.Int, 50).Value = lijst.SelectedJaartal;
+            objSqlCommand.Parameters.Add("@above", SqlDbType.Int, 50).Value = lijst.Above;
+            objSqlCommand.Parameters.Add("@input", SqlDbType.VarChar, 100).Value = lijst.SearchInput;
+            CONad.SelectCommand = objSqlCommand;
             CONad.Fill(DatasetFilled);
             //DataSet DS = New DataSet();
             objLijst.DataViewTop10 = DatasetFilled.Tables[0].DefaultView;
@@ -67,13 +67,13 @@ namespace BusinessLayer
 
             lijst.Val = lijst.LijstLengte;
             SqlDataAdapter CONad = new SqlDataAdapter();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = Connectie;
-            cmd.CommandText = "GetTop10";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@jaartal", SqlDbType.Int, 50).Value = lijst.SelectedJaartal;
-            cmd.Parameters.Add("@above", SqlDbType.Int, 50).Value = lijst.Above;
-            CONad.SelectCommand = cmd;
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.Connection = Connectie;
+            objSqlCommand.CommandText = "GetTop10";
+            objSqlCommand.CommandType = CommandType.StoredProcedure;
+            objSqlCommand.Parameters.Add("@jaartal", SqlDbType.Int, 50).Value = lijst.SelectedJaartal;
+            objSqlCommand.Parameters.Add("@above", SqlDbType.Int, 50).Value = lijst.Above;
+            CONad.SelectCommand = objSqlCommand;
             CONad.Fill(DatasetFilled);
             //DataSet DS = New DataSet();
             objLijst.DataViewTop10 = DatasetFilled.Tables[0].DefaultView;
@@ -89,12 +89,12 @@ namespace BusinessLayer
             using (Connectie)
             {
                 Connectie.Open();
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "GetJaren";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = Connectie;
+                SqlCommand objSqlCommand = new SqlCommand();
+                objSqlCommand.CommandText = "GetJaren";
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Connection = Connectie;
 
-                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(objSqlCommand))
                 {
                     // DataTable dt = new DataTable();
                     adapter.Fill(objLijst.DataTable);
@@ -105,6 +105,7 @@ namespace BusinessLayer
                         objLijst.SelectedJaartal = objLijst.DataTable.Rows[i][0].ToString();
                     }
                 }
+                Connectie.Close();
             }
         }
 
@@ -114,14 +115,14 @@ namespace BusinessLayer
             Artiest artiest = new Artiest();
 
             Connectie.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "AddArtiest";
-            cmd.Parameters.AddWithValue("@naam", artiest.Naam);
-            cmd.Parameters.AddWithValue("@url", artiest.Url);
-            cmd.Parameters.AddWithValue("@biografie", artiest.Bio);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = Connectie;
-            cmd.ExecuteNonQuery();
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.CommandText = "AddArtiest";
+            objSqlCommand.Parameters.AddWithValue("@naam", artiest.Naam);
+            objSqlCommand.Parameters.AddWithValue("@url", artiest.Url);
+            objSqlCommand.Parameters.AddWithValue("@biografie", artiest.Bio);
+            objSqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            objSqlCommand.Connection = Connectie;
+            objSqlCommand.ExecuteNonQuery();
             Connectie.Close();
         }
 
@@ -129,24 +130,38 @@ namespace BusinessLayer
         {
 
             Connectie.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "RemoveArtiestZonderLied";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Connection = Connectie;
-            cmd.ExecuteNonQuery();
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.CommandText = "RemoveArtiestZonderLied";
+            objSqlCommand.CommandType = CommandType.StoredProcedure;
+            objSqlCommand.Connection = Connectie;
+            objSqlCommand.ExecuteNonQuery();
             Connectie.Close();
         }
 
+        /// <summary>
+        /// Loaded van ComboBox jaren.
+        /// </summary>
+        /// <returns></returns>
         public SqlCommand Loaded()
         {
-
             Connectie.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "GetArtiestenZonderLied";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Connection = Connectie;
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.CommandText = "GetArtiestenZonderLied";
+            objSqlCommand.CommandType = CommandType.StoredProcedure;
+            objSqlCommand.Connection = Connectie;
 
-            return cmd;
+            return objSqlCommand;
+        }
+
+        public SqlCommand LoadedArtiest()
+        {
+            Connectie.Open();
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.CommandText = "GetAllArtiesten";
+            objSqlCommand.CommandType = CommandType.StoredProcedure;
+            objSqlCommand.Connection = Connectie;
+
+            return objSqlCommand;
         }
 
         /// <summary>
@@ -154,32 +169,104 @@ namespace BusinessLayer
         /// </summary>
         public DataTable FillComboboxWithYears()
         {
-// NOTITIE: CLOSE MOET WEG!!!!!
             Connectie.Close();
             Connectie.Open();
             DataTable DatableFilled = new DataTable();
             Lijst objLijst = new Lijst(DatableFilled);
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "GetJaren";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Connection = Connectie;
-           
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.CommandText = "GetJaren";
+            objSqlCommand.CommandType = CommandType.StoredProcedure;
+            objSqlCommand.Connection = Connectie;
+
 
             {
-                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(objSqlCommand))
                 {
-                    
+
                     adapter.Fill(objLijst.DataTable);
 
                     // String x is het eerste jaar van de top2000
-                    string x = cmd.ExecuteScalar().ToString();
+                    string x = objSqlCommand.ExecuteScalar().ToString();
                     // Voor elk jaar dat de top2000 bestaat word ii met 1 verhoogd
 
                     // Voor elk jaar word er een item toegevoegd aan de combobox die per jaar met 1 word verhoogd
                     return objLijst.DataTable;
                 }
             }
-            
+
+        }
+
+        public DataTable FillComboboxWithArtiesten()
+        {
+            Connectie.Close();
+            Connectie.Open();
+            DataTable DatableFilled = new DataTable();
+            Lijst objLijst = new Lijst(DatableFilled);
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.CommandText = "GetAllArtiesten";
+            objSqlCommand.CommandType = CommandType.StoredProcedure;
+            objSqlCommand.Connection = Connectie;
+
+
+            {
+                using (SqlDataAdapter adapter = new SqlDataAdapter(objSqlCommand))
+                {
+
+                    adapter.Fill(objLijst.DataTable);
+
+                    // String x is het eerste jaar van de top2000
+                    string x = objSqlCommand.ExecuteScalar().ToString();
+                    // Voor elk jaar dat de top2000 bestaat word ii met 1 verhoogd
+
+                    // Voor elk jaar word er een item toegevoegd aan de combobox die per jaar met 1 word verhoogd
+                    return objLijst.DataTable;
+                }
+            }
+
+        }
+
+
+        public void ArtiestBewerken(Artiest artiest)
+        {
+           
+            Connectie.Open();
+            SqlCommand objSqlCommand = new SqlCommand();
+            objSqlCommand.CommandText = "UpdateArtiest";
+            objSqlCommand.CommandType = CommandType.StoredProcedure;
+            objSqlCommand.Connection = Connectie;
+            objSqlCommand.Parameters.AddWithValue("@artiest", artiest.SelectedArtiest);
+
+
+            // end stored procedure
+
+            if (artiest.ArtiestLenght == 0)
+            {
+                objSqlCommand.Parameters.AddWithValue("@naam", artiest.SelectedArtiest);
+            }
+            if (artiest.ArtiestLenght != 0)
+            {
+                objSqlCommand.Parameters.AddWithValue("@naam", artiest.Naam);
+            }
+            if (artiest.UrlLenght == 0)
+            {
+                objSqlCommand.Parameters.AddWithValue("@url", DBNull.Value);
+            }
+            if (artiest.UrlLenght != 0)
+            {
+                objSqlCommand.Parameters.AddWithValue("@url", artiest.Url);
+            }
+            if (artiest.BioLenght == 0)
+            {
+                objSqlCommand.Parameters.AddWithValue("@biografie", DBNull.Value);
+            }
+            if (artiest.BioLenght != 0)
+            {
+                objSqlCommand.Parameters.AddWithValue("@biografie", artiest.Bio);
+
+                {
+                    objSqlCommand.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
