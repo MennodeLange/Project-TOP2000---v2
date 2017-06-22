@@ -31,6 +31,10 @@ namespace Top2000
     /// </summary>
     public partial class MainWindow : Window 
     {
+        Lijst objAbove = new Lijst();
+
+        
+
         public string openclosed = "Closed";
 
         public int val = 0;
@@ -42,6 +46,7 @@ namespace Top2000
             Loaded();
             TBSearch.TextChanged += new TextChangedEventHandler(TextChanged);
             val = TBSearch.Text.Length;
+            objAbove.Above = 0;
         }
         
         public void MenuH_Click(object sender, RoutedEventArgs e)
@@ -67,8 +72,7 @@ namespace Top2000
         }
         private void CBJaar_changed(object sender, System.EventArgs e)
         {
-            Lijst objlijst = new Lijst();
-            objlijst.Above = 0;
+            objAbove.Above = 0;
             GetTop10();
         }
 
@@ -102,30 +106,34 @@ namespace Top2000
 
         public void BtnEerste_Click(object sender, RoutedEventArgs e)
         {
-        
+            objAbove.Above = 0;
+            GetTop10();
         }
 
         public void BtnVorige_Click(object sender, RoutedEventArgs e)
         {
-         
+            objAbove.Above = objAbove.Above - 10;
+            GetTop10();
         }
 
         public void BtnVolgende_Click(object sender, RoutedEventArgs e)
         {
-           
+            objAbove.Above = objAbove.Above + 10;
+            GetTop10();
         }
 
         public void BtnLaatste_Click(object sender, RoutedEventArgs e)
         {
-           
+            objAbove.Above = 1990;
+            GetTop10();
         }
 
 
         private void TextChanged(object Sender, TextChangedEventArgs e)
         {
-             Lijst objLijst = new Lijst();
+             
 
-            objLijst.Above  = 0;
+            objAbove.Above  = 0;
             if (TBSearch.Text.Length >= 3 && !(TBSearch.Text == "Search"))
             {
                 GetTop10Search();
