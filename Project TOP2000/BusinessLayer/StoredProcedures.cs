@@ -15,27 +15,13 @@ namespace BusinessLayer
     {
         public SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["Top2000ConnectionString"].ConnectionString);
 
-        private int val;
-
-        public int Val
-        {
-            get { return val; }
-            set { val = value; }
-        }
-
         public StoredProcedures()
         {
 
         }
 
-        public StoredProcedures(int _val)
-        {
-            this.val = _val;
-        }
-
         public DataView GetTop10Search(Lijst lijst)
         {
-            SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["Top2000ConnectionString"].ConnectionString);
             DataSet DatasetFilled = new DataSet();
             Lijst objLijst = new Lijst(DatasetFilled);
 
@@ -56,7 +42,6 @@ namespace BusinessLayer
 
         public DataView GetTop10(Lijst lijst)
         {
-            SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["Top2000ConnectionString"].ConnectionString);
             DataSet DatasetFilled = new DataSet();
             Lijst objLijst = new Lijst(DatasetFilled);
 
@@ -74,34 +59,11 @@ namespace BusinessLayer
             return objLijst.DataViewTop10;
         }
 
-        public void GetJaren()
+       
+
+
+        public void ArtiestToevoegen(Artiest artiest)
         {
-            Lijst objLijst = new Lijst();
-
-            Connectie.Open();
-            SqlCommand objSqlCommand = new SqlCommand("GetJaren", Connectie);
-            objSqlCommand.CommandType = CommandType.StoredProcedure;
-
-            using (SqlDataAdapter adapter = new SqlDataAdapter(objSqlCommand))
-            {
-                // DataTable dt = new DataTable();
-                adapter.Fill(objLijst.DataTable);
-
-                // Voor elk jaar word er een item toegevoegd aan de combobox die per jaar met 1 word verhoogd
-                for (int i = 0; i < objLijst.DataTable.Rows.Count; i++)
-                {
-                    objLijst.SelectedJaartal = objLijst.DataTable.Rows[i][0].ToString();
-                }
-            }
-
-            Connectie.Close();
-        }
-
-
-        public void ArtiestToevoegen()
-        {
-            Artiest artiest = new Artiest();
-
             Connectie.Open();
             SqlCommand objSqlCommand = new SqlCommand("AddArtiest", Connectie);
             objSqlCommand.Parameters.AddWithValue("@naam", artiest.Naam);
@@ -112,10 +74,12 @@ namespace BusinessLayer
             Connectie.Close();
         }
 
-        public void ArtiestVerwijderen()
+        public void ArtiestVerwijderen(Artiest artiest)
         {
             Connectie.Open();
+
             SqlCommand objSqlCommand = new SqlCommand("RemoveArtiestZonderLied", Connectie);
+            objSqlCommand.Parameters.AddWithValue("@naam", artiest.Naam);
             objSqlCommand.CommandType = CommandType.StoredProcedure;
             objSqlCommand.ExecuteNonQuery();
             Connectie.Close();
@@ -125,22 +89,24 @@ namespace BusinessLayer
         /// Loaded van ComboBox jaren.
         /// </summary>
         /// <returns></returns>
-        public SqlCommand Loaded()
+        public DataTable GetArtiestenZonderLied()
         {
+
+
+            Connectie.Close();
             Connectie.Open();
-            SqlCommand objSqlCommand = new SqlCommand("GetArtiestenZonderLied", Connectie);
+            DataTable DatableFilled = new DataTable();
+            Lijst objLijst = new Lijst(DatableFilled);
+            SqlCommand objSqlCommand = new SqlCommand("GetArtiestZonderLied", Connectie);
             objSqlCommand.CommandType = CommandType.StoredProcedure;
 
-            return objSqlCommand;
-        }
+            using (SqlDataAdapter adapter = new SqlDataAdapter(objSqlCommand))
+            {
+                adapter.Fill(objLijst.DataTable);
 
-        public SqlCommand LoadedArtiest()
-        {
-            Connectie.Open();
-            SqlCommand objSqlCommand = new SqlCommand("GetAllArtiesten", Connectie);
-            objSqlCommand.CommandType = CommandType.StoredProcedure;
-
-            return objSqlCommand;
+                // Voor elk jaar word er een item toegevoegd aan de combobox die per jaar met 1 word verhoogd
+                return objLijst.DataTable;
+            }
         }
 
         /// <summary>
@@ -164,7 +130,7 @@ namespace BusinessLayer
             }
         }
 
-        public DataTable FillComboboxWithArtiesten()
+        public SqlCommand GetAllArtiesten()
         {
             Connectie.Close();
             Connectie.Open();
@@ -178,50 +144,42 @@ namespace BusinessLayer
                 adapter.Fill(objLijst.DataTable);
 
                 // Voor elk jaar word er een item toegevoegd aan de combobox die per jaar met 1 word verhoogd
-                return objLijst.DataTable;
+                return objSqlCommand;
             }
         }
 
-        public void ArtiestBewerken(Artiest artiest)
+        public void ArtiestAanpassen(Artiest artiest)
         {
             Connectie.Open();
-            SqlCommand objSqlCommand = new SqlCommand("UpdateArtiest", Connectie);
-            objSqlCommand.CommandType = CommandType.StoredProcedure;
-            objSqlCommand.Parameters.AddWithValue("@artiest", artiest.SelectedArtiest);
+            SqlCommand objSqlcommand = new SqlCommand("UpdateArtiest", Connectie);
+            objSqlcommand.CommandType = CommandType.StoredProcedure;
+            objSqlcommand.Parameters.AddWithValue("@artiest", artiest.SelectedArtiest);
 
             if (artiest.ArtiestLenght == 0)
             {
-                objSqlCommand.Parameters.AddWithValue("@naam", artiest.SelectedArtiest);
+                objSqlcommand.Parameters.AddWithValue("@naam", artiest.SelectedArtiest);
             }
-
             if (artiest.ArtiestLenght != 0)
             {
-                objSqlCommand.Parameters.AddWithValue("@naam", artiest.Naam);
+                objSqlcommand.Parameters.AddWithValue("@naam", artiest.Naam);
             }
-
             if (artiest.UrlLenght == 0)
             {
-                objSqlCommand.Parameters.AddWithValue("@url", DBNull.Value);
+                objSqlcommand.Parameters.AddWithValue("@url", DBNull.Value);
             }
-
             if (artiest.UrlLenght != 0)
             {
-                objSqlCommand.Parameters.AddWithValue("@url", artiest.Url);
+                objSqlcommand.Parameters.AddWithValue("@url", artiest.Url);
             }
-
             if (artiest.BioLenght == 0)
             {
-                objSqlCommand.Parameters.AddWithValue("@biografie", DBNull.Value);
+                objSqlcommand.Parameters.AddWithValue("@biografie", DBNull.Value);
             }
-
             if (artiest.BioLenght != 0)
             {
-                objSqlCommand.Parameters.AddWithValue("@biografie", artiest.Bio);
-
-                {
-                    objSqlCommand.ExecuteNonQuery();
-                }
+                objSqlcommand.Parameters.AddWithValue("@biografie", artiest.Bio);
             }
+            objSqlcommand.ExecuteNonQuery();
+        }
         }
     }
-}

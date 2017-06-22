@@ -25,8 +25,10 @@ namespace Top2000
     /// </summary>
     public partial class Artiest_Toevoegen : Window
     {
+        Artiest objArtiest = new Artiest();
         public Artiest_Toevoegen()
         {
+
             InitializeComponent();
         }
 
@@ -50,15 +52,20 @@ namespace Top2000
             {
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
+
+                    objArtiest.Naam = TBArtiestNaam.Text;
+                    objArtiest.Url = TBArtiestUrl.Text;
+                    objArtiest.Bio = TBArtiestBiografie.Text;
                     //hier moet de stored procedure methode uitgevoerd worden
                     StoredProcedures Procedures = new StoredProcedures();
-                    Procedures.ArtiestToevoegen();
+                    Procedures.ArtiestToevoegen(objArtiest);
 
                     MessageBox.Show("Artiest Toegevoegd!");
                     TBArtiestNaam.Text = "";
                     TBArtiestUrl.Text = "";
                     TBArtiestBiografie.Text = "";
                 }
+
                 if (messageBoxResult == MessageBoxResult.No)
                 {
                     MessageBox.Show("Artiest niet Toegevoegd!");

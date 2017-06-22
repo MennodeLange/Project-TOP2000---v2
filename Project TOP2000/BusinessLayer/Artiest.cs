@@ -77,6 +77,7 @@ namespace BusinessLayer
             set { bioLenght = value; }
         }
 
+        
 
         public Artiest()
         {

@@ -25,28 +25,23 @@ using BusinessLayer;
 
 namespace Top2000
 {
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window 
     {
         Lijst lijst = new Lijst();
-        Artiest objartiest = new Artiest();
+       
         
-
         public string openclosed = "Closed";
 
         public int val = 0;
 
-
         public MainWindow()
         {
             InitializeComponent();
-            Loaded();
-            TBSearch.TextChanged += new TextChangedEventHandler(TextChanged);
-            val = TBSearch.Text.Length;
-            lijst.Above = 0;
+            SchermGeladen();
+            
         }
         
         public void MenuH_Click(object sender, RoutedEventArgs e)
@@ -62,14 +57,17 @@ namespace Top2000
                 openclosed = "Closed";
             }
         }
-
         
-        public void Loaded()
+        public void SchermGeladen()
         {
             VulComboBox();
             CBJaar.SelectedIndex = 0;
             Top10.Background = Brushes.White;
+            TBSearch.TextChanged += new TextChangedEventHandler(TextChanged);
+            val = TBSearch.Text.Length;
+            lijst.Above = 0;
         }
+
         private void CBJaar_changed(object sender, System.EventArgs e)
         {
             lijst.Above = 0;
@@ -92,8 +90,6 @@ namespace Top2000
 
         private void Artiest_Bewerken_Click(object sender, RoutedEventArgs e)
         {
-            StoredProcedures ProcedureArtiestBewerken = new StoredProcedures();
-            ProcedureArtiestBewerken.ArtiestBewerken(objartiest);
             Artiest_Bewerken objArtiestBewerken = new Artiest_Bewerken();
             objArtiestBewerken.Show();
             this.Close();
@@ -123,7 +119,6 @@ namespace Top2000
 
         public void BtnVolgende_Click(object sender, RoutedEventArgs e)
         {
-
             if (lijst.Above < 1990){
                 lijst.Above += 10;
             }
@@ -138,9 +133,8 @@ namespace Top2000
 
         private void TextChanged(object Sender, TextChangedEventArgs e)
         {
-             
-
             lijst.Above  = 0;
+
             if (TBSearch.Text.Length >= 3 && !(TBSearch.Text == "Search"))
             {
                 GetTop10Search();
@@ -166,6 +160,7 @@ namespace Top2000
         {
             TBSearch.Text = "";
         }
+
         /// <summary>
         /// Functie die word aangeroepen waneer de search textbox niet langer gefocussed is
         /// </summary>
@@ -181,22 +176,16 @@ namespace Top2000
         /// </summary>
         public void GetTop10Search()
         {
-            // Variabelen
             int SearchLength = TBSearch.Text.Length;
             string SearchInput = TBSearch.Text;
-            //int above = 0;
             string SelectedJaartal = CBJaar.SelectedValue.ToString();
-            
 
-            // Variabelen op sturen naaar de businesslayer
             Lijst objBusinessLayer = new Lijst();
             objBusinessLayer.LijstLengte = SearchLength;
             objBusinessLayer.SearchInput = SearchInput;
             objBusinessLayer.Above = lijst.Above;
             objBusinessLayer.SelectedJaartal = SelectedJaartal;
 
-            // Top10 vullen
-            //objBusinessLayer.DataViewTop10 = Top10.DataContext;
             Top10.DataContext = objBusinessLayer.DataViewTop10;
 
             StoredProcedures ProcedureGetTop10Search = new StoredProcedures();
@@ -210,24 +199,12 @@ namespace Top2000
         /// </summary>
         public void GetTop10()
         {
+            string Jaartal = CBJaar.SelectedValue.ToString();
 
             Lijst objBusinessLayer = new Lijst();
-            // Variabelen
-            //int SearchLength = TBSearch.Text.Length;
-            //string SearchInput = TBSearch.Text;
-           // int above = 0;
 
-
-            string Jaartal = CBJaar.SelectedValue.ToString();
             objBusinessLayer.SelectedJaartal = Jaartal;
-
-            // Variabelen op sturen naar de businesslayer
             objBusinessLayer.Above = lijst.Above;
-
-            // Top10 vullen
-            //objBusinessLayer.DataViewTop10 = Top10.DataContext;
-            
-            //^ dit moet geen null zijn als je er doorheen bent gelopen.
 
             StoredProcedures ProcedureGetTop10 = new StoredProcedures();
             ProcedureGetTop10.GetTop10(objBusinessLayer);
@@ -242,11 +219,10 @@ namespace Top2000
         {
             StoredProcedures ProcedureVulBox = new StoredProcedures();
             ProcedureVulBox.FillComboboxWithYears();
-            //for (int i = 0; i < dt.Rows.Count; i++)
+
             for (int i = 0; i < ProcedureVulBox.FillComboboxWithYears().Rows.Count; i++)
             {
                 CBJaar.Items.Add(ProcedureVulBox.FillComboboxWithYears().Rows[i][0].ToString());
-                //CBJaar.Items.Add(dt.Rows[i][0].ToString())
             }
         }
     }  

@@ -28,50 +28,53 @@ namespace Top2000
     {
         public SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["TOP2000ConnectionString"].ConnectionString);
         Artiest objArtiest = new Artiest();
+
         public Artiest_Bewerken()
         {
             InitializeComponent();
-            Loaded();
+            VulCBMetArtiesten();
         }
 
         private void BTNAanpassen_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Wilt u de gegevens echt aanpassen?", "Zeker weten?", System.Windows.MessageBoxButton.YesNo);
-
-            if (messageBoxResult == MessageBoxResult.Yes)
-            {
-                try
+                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Wilt u de gegevens echt aanpassen?", "Zeker weten?", System.Windows.MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    string ArtiestUrl = TBArtiestUrl.Text;
-                    string BioText = TBArtiestBiografie.Text;
-                    string ArtiestNaam = TBArtiestNaam.Text;
-                    string SelectedArtiest = CBArtiestNaam.SelectedValue.ToString();
+                    try
+                    {
+                        using (Connectie)
+                        {
+                            objArtiest.Naam = TBArtiestNaam.Text;
+                            objArtiest.Url = TBArtiestUrl.Text;
+                            objArtiest.Bio = TBArtiestBiografie.Text;
+                            objArtiest.ArtiestLenght = TBArtiestNaam.Text.Length;
+                            objArtiest.UrlLenght = TBArtiestUrl.Text.Length;
+                            objArtiest.BioLenght = TBArtiestBiografie.Text.Length;
+                            objArtiest.SelectedArtiest = CBArtiestNaam.SelectedValue.ToString();
 
-                    objArtiest.Bio = BioText;
-                    objArtiest.Naam = ArtiestNaam;
-                    objArtiest.Url = ArtiestUrl;
-                    objArtiest.SelectedArtiest = SelectedArtiest;
+                            StoredProcedures UpdateArtiest = new StoredProcedures();
 
-                    StoredProcedures ProcedureArtiestBewerken = new StoredProcedures();
-                    ProcedureArtiestBewerken.ArtiestBewerken(objArtiest);
-                    MessageBox.Show("Artiest is succesvol geupdate!");
+                            UpdateArtiest.ArtiestAanpassen(objArtiest);
+
+                            MessageBox.Show("Artiest is succesvol geupdate!");
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Artiest kon niet worden bijgewerkt");
+                    }
+                    CBArtiestNaam.SelectedItem = 0;
+                    TBArtiestNaam.Text = null;
+                    TBArtiestUrl.Text = null;
+                    TBArtiestBiografie.Text = null;
                 }
-                catch
+                if (messageBoxResult == MessageBoxResult.No)
                 {
-                    MessageBox.Show("Artiest kon niet worden bijgewerkt");
+                    MessageBox.Show("Niet bijgewerkt!");
+                
                 }
-
-                CBArtiestNaam.SelectedItem = 0;
-                TBArtiestNaam.Text = null;
-                TBArtiestUrl.Text = null;
-                TBArtiestBiografie.Text = null;
-            }
-
-            if (messageBoxResult == MessageBoxResult.No)
-            {
-                MessageBox.Show("Niet bijgewerkt!");
-            }
         }
+
 
         private void BTNTerug_Click(object sender, RoutedEventArgs e)
         {
@@ -83,18 +86,24 @@ namespace Top2000
         /// <summary>
         /// Inplaats van Loaded -> Vul artiestbox
         /// </summary>
-        public void Loaded()
+        public void VulCBMetArtiesten()
         {
-
             try
             {
                 StoredProcedures ProcedureVulBoxArtiest = new StoredProcedures();
-                ProcedureVulBoxArtiest.FillComboboxWithArtiesten();
+                ProcedureVulBoxArtiest.GetAllArtiesten();
                 //oude loop for (int i = 0; i < dt.Rows.Count; i++)
 
-                for (int i = 0; i < ProcedureVulBoxArtiest.FillComboboxWithArtiesten().Rows.Count; i++)
+                using (SqlDataAdapter adapter = new SqlDataAdapter(ProcedureVulBoxArtiest.GetAllArtiesten()))
                 {
-                    CBArtiestNaam.Items.Add(ProcedureVulBoxArtiest.FillComboboxWithArtiesten().Rows[i][0]);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        CBArtiestNaam.Items.Add(dt.Rows[i][0].ToString());
+                        i++;
+                    }
 
                 }
             }

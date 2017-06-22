@@ -21,17 +21,17 @@ using BusinessLayer;
 
 namespace Top2000
 {
-
     /// <summary>
     /// Interaction logic for Artiest_Verwijderen.xaml
     /// </summary>
     public partial class Artiest_Verwijderen : Window
     {
+        Artiest objArtiest = new Artiest();
         public SqlConnection Connectie = new SqlConnection(ConfigurationManager.ConnectionStrings["Top2000ConnectionString"].ConnectionString);
         public Artiest_Verwijderen()
         {
             InitializeComponent();
-            Loaded();
+            SchermGeladen();
         }
 
         private void BTNVerwijderen_Click(object sender, RoutedEventArgs e)
@@ -42,8 +42,10 @@ namespace Top2000
 
                 try
                     {
+                        objArtiest.Naam = CBVerwijderArtiest.SelectedValue.ToString();
+
                         StoredProcedures procedure = new StoredProcedures();
-                        procedure.ArtiestVerwijderen();
+                        procedure.ArtiestVerwijderen(objArtiest);
                         CBVerwijderArtiest.Items.RemoveAt
                         (CBVerwijderArtiest.Items.IndexOf(CBVerwijderArtiest.SelectedItem));
 
@@ -73,38 +75,50 @@ namespace Top2000
             this.Close();
         }
         
-        public void Loaded()
+        public void SchermGeladen()
         {
             try
             {
-                using (Connectie)
+                StoredProcedures VulComboboxArtiestZonderLied = new StoredProcedures();
+                VulComboboxArtiestZonderLied.GetArtiestenZonderLied();
+
+                for (int i = 0; i < VulComboboxArtiestZonderLied.GetArtiestenZonderLied().Rows.Count; i++)
                 {
-
-                    StoredProcedures LoadedProcedure = new StoredProcedures();
-                    
-                    {
-                        using (SqlDataAdapter adapter = new SqlDataAdapter(LoadedProcedure.Loaded()))
-                        {
-                            Lijst objlijst = new Lijst();
-                            
-                            adapter.Fill(objlijst.DataTable);
-                            string x = LoadedProcedure.Loaded().ExecuteReader().ToString();
-
-
-                            for (int i = 0; i < objlijst.DataTable.Rows.Count; i++)
-                            {
-                                CBVerwijderArtiest.Items.Add(objlijst.DataTable.Rows[i][0].ToString());
-                                i++;
-                            }
-
-                        }
-                    }
+                    CBVerwijderArtiest.Items.Add(VulComboboxArtiestZonderLied.GetArtiestenZonderLied().Rows[i][0].ToString());
                 }
+
             }
             catch
             {
                 MessageBox.Show("kan de gegevens niet ophalen");
             }
+
+          
+            //    using (Connectie)
+            //    {
+
+            //        Connectie.Open();
+            //        SqlCommand cmd = new SqlCommand("GetArtiestenZonderLied", Connectie);
+            //        cmd.CommandType = CommandType.StoredProcedure;
+            //        {
+            //            using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+            //            {
+            //                DataTable dt = new DataTable();
+            //                adapter.Fill(dt);
+            //                string x = cmd.ExecuteReader().ToString();
+
+
+            //                for (int i = 0; i < dt.Rows.Count; i++)
+            //                {
+            //                    CBVerwijderArtiest.Items.Add(dt.Rows[i][0].ToString());
+            //                    i++;
+            //                }
+
+            //            }
+            //        }
+            //    }
+            //}
+            
         }
     }
 }
