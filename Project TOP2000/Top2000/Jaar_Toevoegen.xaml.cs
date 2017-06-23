@@ -19,12 +19,16 @@ using Microsoft.Win32;
 
 namespace Top2000
 {
+   
     /// <summary>
     /// Interaction logic for Jaar_Toevoegen.xaml
     /// </summary>
     public partial class Jaar_Toevoegen : Window
     {
-
+        Artiest objArtiest = new Artiest();
+        public List<string> Positie = new List<string>();
+        public List<string> Songid = new List<string>();
+        public List<string> Jaar = new List<string>();
         public Jaar_Toevoegen()
         {
             InitializeComponent();
@@ -41,11 +45,22 @@ namespace Top2000
 
                 try
                 {
-                    
+                    for (int i = 0; i < Positie.Count; i++)
+                    {
+                        objArtiest.Posities = Convert.ToInt32(Positie[i]);
+                        objArtiest.Songids = Convert.ToInt32(Songid[i]);
+                        objArtiest.Jaars = Convert.ToInt32(Jaar[i]);
+
+                        StoredProcedures Jaartoevoegen = new StoredProcedures();
+                        Jaartoevoegen.JaarToevoegen(objArtiest);
+
+                 
+                    }
+                   
                 }
                 catch
                 {
-                    MessageBox.Show("het gokezen bestan is niet geldig (kijk help)");
+                    MessageBox.Show("het gokezen bestand is niet geldig (kijk help)");
                 }
 
                 MessageBox.Show("Jaar Toegevoegd!!");
@@ -89,12 +104,9 @@ namespace Top2000
             if (Dialog.ShowDialog() == true)
             {
                 ///lines heeft nu alle regels uit het gekozen bestand
-                List<string[]> Lines = File.ReadLines(Dialog.FileName).Select(line => line.Split(',')).ToList();
-                List<string> positie = new List<string>();
-                List<string> titel = new List<string>();
-                List<string> naam = new List<string>();
-                List<string> jaar = new List<string>();
-                int test = 0;
+                        List<string[]> Lines = File.ReadLines(Dialog.FileName).Select(line => line.Split(',')).ToList();
+
+                        int counter = 0;
 
                 ///voor elk woord in de regel
                 foreach (var line in Lines)
@@ -102,41 +114,32 @@ namespace Top2000
 
                     ///message is nu de string die het woord bevat
 
-                    if (test == 0)
+                    if (counter == 0)
                     {
                         var message = string.Join(Environment.NewLine, line[0]);
 
-                        positie.Add(message);
-                        MessageBox.Show(String.Join(",", positie.ToArray()));
-                        test = 1;
+                        Positie.Add(message);
+                        counter = 1;
                     }
-                    if (test == 1)
+                
+                    if (counter == 1)
                     {
                         var message = string.Join(Environment.NewLine, line[1]);
 
-                        titel.Add(message);
-                        MessageBox.Show(String.Join(",", titel.ToArray()));
-                        test = 2;
+                        Songid.Add(message);
+                        counter = 2;
                     }
-                    if (test == 2)
+                    if (counter == 2)
                     {
                         var message = string.Join(Environment.NewLine, line[2]);
 
-                        naam.Add(message);
-                        MessageBox.Show(String.Join(",", naam.ToArray()));
-                        test = 3;
-                    }
-                    if (test == 3)
-                    {
-                        var message = string.Join(Environment.NewLine, line[3]);
-
-                        jaar.Add(message);
-                        MessageBox.Show(String.Join(",", jaar.ToArray()));
-                        test = 0;
+                        Jaar.Add(message);
+                        counter = 0;
 
                     }
 
                 }
+
             }
         }
     }

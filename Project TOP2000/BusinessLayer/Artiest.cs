@@ -77,7 +77,28 @@ namespace BusinessLayer
             set { bioLenght = value; }
         }
 
-        
+        private int jaars;
+
+        public int Jaars
+        {
+            get { return jaars; }
+            set { jaars = value; }
+        }
+        private int songids;
+
+        public int Songids
+        {
+            get { return songids; }
+            set { songids = value; }
+        }
+        private int posities;
+
+        public int Posities
+        {
+            get { return posities; }
+            set { posities = value; }
+        }
+
 
         public Artiest()
         {

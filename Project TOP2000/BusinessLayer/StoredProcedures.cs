@@ -181,5 +181,20 @@ namespace BusinessLayer
             }
             objSqlcommand.ExecuteNonQuery();
         }
+
+        public void JaarToevoegen(Artiest artiest)
+        {
+           
+            Connectie.Open();
+            SqlCommand objSqlCommand = new SqlCommand("NieuwJaar", Connectie);
+            objSqlCommand.Parameters.AddWithValue("@positie", artiest.Posities);
+            objSqlCommand.Parameters.AddWithValue("@songid", artiest.Songids);
+            objSqlCommand.Parameters.AddWithValue("@jaartal", artiest.Jaars);
+            objSqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            objSqlCommand.ExecuteNonQuery();
+            Connectie.Close();
+        }
+
+
         }
     }
